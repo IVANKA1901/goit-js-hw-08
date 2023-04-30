@@ -23,17 +23,18 @@ function onFormSubmit(e) {
 
   e.currentTarget.reset();
   localStorage.removeItem(LOCAL_KEY);
+  formData = {};
 }
 
 // Під час завантаження сторінки перевіряй стан сховища, і якщо там є збережені дані, заповнюй ними поля форми. В іншому випадку поля повинні бути порожніми.
 
 function populateInputValue() {
-  // дістаємо ключ, записуєм у змінну
-  const savedMessage = localStorage.getItem(LOCAL_KEY);
+  let savedMessage = JSON.parse(localStorage.getItem(LOCAL_KEY));
   if (savedMessage) {
-    const { email, message } = JSON.parse(savedMessage);
-    form.elements.email.value = email;
-    form.elements.message.value = message;
+    form.elements.email.value = savedMessage.email || '';
+    form.elements.message.value = savedMessage.message || '';
+    formData.email = savedMessage.email || '';
+    formData.message = savedMessage.message || '';
   }
 }
 populateInputValue();
